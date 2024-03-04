@@ -1,0 +1,21 @@
+import db from '@/utils/db';
+import { NextResponse } from 'next/server';
+
+export const GET = async (request) => {
+  const tasks = await db.task.findMany({
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+  return NextResponse.json({ data: tasks });
+};
+
+export const POST = async (request) => {
+  const data = await request.json();
+  const task = await db.task.create({
+    data: {
+      ...data
+    }
+  })
+  return NextResponse.json({ data: task });
+};
